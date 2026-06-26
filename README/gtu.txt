@@ -1,0 +1,12 @@
+Run in VS CODE
+
+open powershell in terminal then below command copy and pest 
+java -version
+$env:JAVA_HOME = "C:\Program Files\Eclipse Adoptium\jdk-25.0.3.9-hotspot"
+cd e:\gtudemo-main\gtudemo-main
+Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
+.\run_project.ps1
+
+open web browser and open pest below link
+
+http://localhost:8080/GTUDemo/

@@ -1,0 +1,186 @@
+/* =============================================
+   GTU Main Website - main.css
+   ============================================= */
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Segoe UI', Arial, sans-serif;
+  font-size: 14px;
+  color: #222;
+  background: #f5f5f5;
+}
+
+a { text-decoration: none; color: inherit; }
+
+/* ---- TOP BAR ---- */
+.top-bar {
+  background: #003087;
+  color: #fff;
+  font-size: 12px;
+  padding: 6px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.top-bar a { color: #cce3ff; margin-left: 14px; }
+.top-bar a:hover { color: #fff; }
+.top-bar-left span { margin-right: 18px; }
+.font-size-ctrl a { border: 1px solid #cce3ff; padding: 1px 6px; border-radius: 3px; margin-left: 4px; cursor: pointer; }
+
+/* ---- HEADER ---- */
+.header { background: #fff; border-bottom: 3px solid #e87722; padding: 12px 24px; }
+.header-inner { display: flex; align-items: center; justify-content: space-between; max-width: 1300px; margin: 0 auto; }
+.logo-area { display: flex; align-items: center; gap: 16px; }
+.logo { height: 70px; width: auto; }
+.logo-text h1 { font-size: 22px; color: #003087; font-weight: 700; }
+.logo-text p { font-size: 14px; color: #555; }
+.header-links { display: flex; gap: 20px; align-items: center; }
+.header-links a { color: #003087; font-size: 13px; font-weight: 600; }
+
+/* ---- NAVBAR ---- */
+.navbar {
+  background: #003087;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+}
+.navbar ul { list-style: none; display: flex; flex-wrap: wrap; max-width: 1300px; margin: 0 auto; }
+.navbar ul li { position: relative; }
+.navbar ul li a {
+  display: block;
+  padding: 14px 16px;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 500;
+  white-space: nowrap;
+  transition: background 0.2s;
+}
+.navbar ul li a:hover, .navbar ul li a:focus { background: #e87722; }
+
+/* Student Corner highlighted */
+.student-corner-nav > a { color: #ffe066 !important; font-weight: 700 !important; }
+.student-corner-nav > a:hover { background: #e87722 !important; color: #fff !important; }
+
+/* Dropdown */
+.dropdown-content {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background: #fff;
+  min-width: 240px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.18);
+  z-index: 2000;
+  border-top: 3px solid #e87722;
+}
+.dropdown-content a {
+  display: block;
+  padding: 10px 16px;
+  color: #003087 !important;
+  font-size: 13px;
+  border-bottom: 1px solid #f0f0f0;
+  background: #fff;
+  transition: background 0.15s;
+}
+.dropdown-content a:hover { background: #f0f5ff; color: #e87722 !important; }
+.dropdown:hover .dropdown-content { display: block; }
+
+/* Portal link inside student dropdown */
+.portal-link {
+  background: #003087 !important;
+  color: #fff !important;
+  font-size: 13px !important;
+}
+.portal-link:hover { background: #e87722 !important; }
+
+/* ---- PORTAL BANNER ---- */
+.portal-banner {
+  background: linear-gradient(135deg, #003087 0%, #0051cc 60%, #e87722 100%);
+  color: #fff;
+  padding: 28px 24px;
+}
+.portal-banner-inner {
+  max-width: 1300px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+.portal-banner-text { display: flex; align-items: center; gap: 20px; }
+.portal-banner-icon { font-size: 48px; opacity: 0.9; }
+.portal-banner-text h2 { font-size: 24px; font-weight: 700; }
+.portal-banner-text p { font-size: 14px; opacity: 0.9; margin-top: 4px; }
+.btn-portal-enter {
+  background: #e87722;
+  color: #fff;
+  padding: 14px 32px;
+  border-radius: 6px;
+  font-size: 16px;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  transition: background 0.2s, transform 0.15s;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+}
+.btn-portal-enter:hover { background: #cf6210; transform: translateY(-2px); }
+
+/* ---- MAIN CONTENT ---- */
+.main-container {
+  max-width: 1300px;
+  margin: 24px auto;
+  padding: 0 20px;
+  display: flex;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+/* News Section */
+.news-section { flex: 1; min-width: 280px; background: #fff; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.07); padding: 20px; }
+.section-header { display: flex; flex-direction: column; gap: 4px; border-bottom: 2px solid #003087; padding-bottom: 10px; margin-bottom: 14px; }
+.section-header h3 { color: #003087; font-size: 16px; }
+.section-header h3 i { color: #e87722; margin-right: 6px; }
+.marquee-label { font-size: 12px; color: #666; }
+.news-item { padding: 10px 0; border-bottom: 1px dashed #ddd; display: flex; flex-direction: column; gap: 4px; }
+.news-date { font-size: 11px; color: #e87722; font-weight: 600; }
+.news-item a { color: #003087; font-size: 13px; line-height: 1.5; }
+.news-item a:hover { color: #e87722; text-decoration: underline; }
+.view-all { display: inline-block; margin-top: 12px; background: #003087; color: #fff; padding: 6px 16px; border-radius: 4px; font-size: 12px; font-weight: 600; }
+.view-all:hover { background: #e87722; }
+.year-filter { margin: 10px 0; display: flex; gap: 10px; align-items: center; font-size: 13px; }
+.year-filter select { padding: 4px 8px; border: 1px solid #ccc; border-radius: 4px; font-size: 13px; }
+.mt-20 { margin-top: 20px; }
+
+/* Quick Access */
+.quick-access { width: 320px; min-width: 280px; background: #fff; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.07); padding: 20px; align-self: flex-start; }
+.qa-title { color: #003087; font-size: 16px; margin-bottom: 16px; border-bottom: 2px solid #003087; padding-bottom: 10px; }
+.qa-title i { color: #e87722; margin-right: 6px; }
+.qa-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.qa-card {
+  display: flex; flex-direction: column; align-items: center; gap: 8px;
+  padding: 16px 8px; border: 1px solid #e0e8f5; border-radius: 8px;
+  color: #003087; font-size: 13px; font-weight: 600; text-align: center;
+  transition: all 0.2s;
+}
+.qa-card i { font-size: 24px; color: #003087; }
+.qa-card:hover { background: #003087; color: #fff; border-color: #003087; }
+.qa-card:hover i { color: #ffe066; }
+.student-portal-card { background: #003087; color: #fff; border-color: #003087; }
+.student-portal-card i { color: #ffe066; }
+.student-portal-card:hover { background: #e87722; border-color: #e87722; }
+
+/* ---- FOOTER ---- */
+.footer { background: #003087; color: #cce3ff; padding: 32px 24px 0; margin-top: 32px; }
+.footer-inner { max-width: 1300px; margin: 0 auto; display: flex; flex-wrap: wrap; gap: 30px; padding-bottom: 24px; border-bottom: 1px solid rgba(255,255,255,0.15); }
+.footer-col { flex: 1; min-width: 180px; }
+.footer-col h4 { color: #fff; font-size: 14px; margin-bottom: 12px; border-bottom: 2px solid #e87722; padding-bottom: 6px; }
+.footer-col p { font-size: 13px; margin-bottom: 6px; line-height: 1.6; }
+.footer-col a { display: block; color: #cce3ff; font-size: 13px; margin-bottom: 6px; }
+.footer-col a:hover { color: #ffe066; }
+.footer-bottom { max-width: 1300px; margin: 0 auto; padding: 14px 0; font-size: 12px; color: #aac4e0; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 6px; }

@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GTU Student Portal</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* CSS Reset and Variables */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary-orange: #ff7443;
+            --sidebar-bg: #404a57;
+            --sidebar-hover: #505c6a;
+            --bg-light: #f2f5f9;
+            --text-dark: #333;
+            --text-light: #fff;
+            --border-color: #ddd;
+            --table-cyan: #5ce0e0;
+        }
+
+        body {
+            background-color: var(--bg-light);
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* Top Header */
+        .top-header {
+            background-color: var(--primary-orange);
+            color: var(--text-light);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 5px 20px;
+            height: 45px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            z-index: 10;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            font-weight: bold;
+            font-size: 1rem;
+        }
+
+        .header-right button {
+            background-color: #343a40;
+            color: white;
+            border: none;
+            padding: 4px 12px;
+            margin-left: 10px;
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 0.8rem;
+        }
+
+        /* Main Container */
+        .main-container {
+            display: flex;
+            flex: 1;
+            overflow: hidden;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 230px;
+            background-color: var(--sidebar-bg);
+            color: var(--text-light);
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+        }
+
+        .profile-section {
+            padding: 15px 10px;
+            text-align: center;
+            border-bottom: 1px solid #555;
+        }
+
+        .profile-section img {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background-color: #ccc;
+            margin-bottom: 5px;
+            object-fit: cover;
+        }
+
+        .enrollment {
+            font-size: 0.8rem;
+            margin-bottom: 3px;
+            font-weight: bold;
+        }
+
+        .student-name {
+            font-size: 0.8rem;
+            line-height: 1.2;
+        }
+
+        .nav-menu {
+            list-style: none;
+            flex: 1;
+        }
+
+        .nav-menu li a {
+            display: flex;
+            align-items: center;
+            padding: 10px 15px;
+            color: #d1d5db;
+            text-decoration: none;
+            font-size: 0.8rem;
+            border-left: 3px solid transparent;
+        }
+
+        .nav-menu li a i {
+            width: 20px;
+            text-align: center;
+            margin-right: 8px;
+        }
+
+        .nav-menu li.active a {
+            background-color: var(--primary-orange);
+            color: white;
+            border-left: 3px solid #c95c35;
+        }
+
+        .nav-menu li a:hover:not(.active) {
+            background-color: var(--sidebar-hover);
+            color: white;
+        }
+
+        /* Content Area */
+        .content-area {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+            background-color: white; 
+        }
+
+        /* ----- HOME VIEW CSS ----- */
+        .home-view {
+            background-color: var(--bg-light);
+            min-height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .alert-banner {
+            text-align: center;
+            color: red;
+            padding: 10px;
+            font-weight: bold;
+            font-size: 0.85rem;
+        }
+
+        .panels-wrapper {
+            display: flex;
+            padding: 0 15px 15px 15px;
+            gap: 15px;
+            align-items: flex-start;
+        }
+
+        .panel {
+            flex: 1;
+            background: white;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+
+        .panel-header {
+            background-color: var(--primary-orange);
+            color: white;
+            padding: 8px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 0.85rem;
+        }
+
+        .home-view table { width: 100%; border-collapse: collapse; font-size: 0.75rem; }
+        .home-view table td { border: 1px solid var(--border-color); padding: 5px 10px; text-align: left; }
+        .home-view table td:first-child { width: 35%; color: #555; background-color: #fafafa; }
+        
+        .edit-icon { float: right; color: #17a2b8; cursor: pointer; }
+
+        .badge-blue { background-color: #007bff; color: white; padding: 2px 6px; border-radius: 3px; }
+        .badge-green { background-color: #28a745; color: white; padding: 2px 6px; border-radius: 50%; width: 18px; height: 18px; display: inline-block; text-align: center; line-height: 14px;}
+
+        /* ----- EDIT FORMS CSS ----- */
+        .edit-view {
+            display: none;
+            padding: 20px;
+            background-color: var(--bg-light);
+            min-height: 100%;
+        }
+
+        .edit-form-container {
+            width: 85%;
+            margin: 0 auto;
+            border: 1px solid #ccc;
+            background: #fff;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            font-size: 0.8rem;
+        }
+
+        .edit-form-header {
+            padding: 12px;
+            color: #fff;
+            text-align: center;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+        
+        .header-cyan { background-color: #5bc0de; }
+        .header-green { background-color: #40c49d; }
+        .header-red { background-color: #f05a5a; }
+
+        .edit-form-info {
+            text-align: center;
+            color: #0000ee;
+            font-size: 0.8rem;
+            padding: 8px;
+            border-bottom: 1px solid #ccc;
+        }
+
+        .edit-form-table { width: 100%; border-collapse: collapse; }
+        .edit-form-table td { border: 1px solid #ccc; padding: 8px 12px; }
+        .edit-form-table td:first-child { width: 25%; background-color: #fff; color: #333; }
+        
+        .edit-form-table input[type="text"], .edit-form-table input[type="password"] {
+            width: 250px;
+            padding: 4px;
+            border: 1px solid #aaa;
+        }
+        
+        .edit-form-table input[type="radio"] { margin-right: 3px; margin-left: 10px; vertical-align: middle;}
+        .edit-form-table input[type="radio"]:first-child { margin-left: 0; }
+
+        .verify-link {
+            color: #337ab7;
+            font-size: 0.75rem;
+            text-decoration: none;
+            display: block; /* Forces it to drop below the input */
+            margin-top: 5px;
+        }
+
+        .edit-form-actions {
+            text-align: center;
+            padding: 12px;
+            border-top: 1px solid #ccc;
+        }
+
+        .btn-green {
+            background-color: #5cb85c;
+            color: white;
+            border: 1px solid #4cae4c;
+            padding: 6px 15px;
+            cursor: pointer;
+            border-radius: 3px;
+            margin: 0 5px;
+            font-weight: bold;
+        }
+        .btn-green:hover { background-color: #449d44; }
+
+
+        /* ----- RESULTS VIEW CSS ----- */
+        .results-view {
+            display: none;
+            padding: 10px 30px;
+            color: var(--text-dark);
+        }
+
+        .results-header-title { text-align: center; font-size: 1.1rem; font-weight: bold; margin-bottom: 5px; color: #444; }
+        .control-group { display: flex; align-items: center; margin-bottom: 5px; font-size: 0.8rem; font-weight: bold; }
+        .control-group label { width: 100px; }
+        .control-group .inputs { display: flex; align-items: center; gap: 10px; }
+        .radio-btn { font-weight: normal; }
+        select { padding: 3px; font-size: 0.8rem; width: 230px; }
+        
+        .search-btn {
+            background-color: #0078d7; color: white; border: none; padding: 4px 12px;
+            border-radius: 3px; cursor: pointer; margin-left: 5px; font-weight: bold; font-size: 0.8rem;
+        }
+
+        .student-details { margin-top: 5px; margin-bottom: 10px; font-size: 0.75rem; line-height: 1.5; font-weight: bold; }
+        .student-details span { font-weight: normal; margin-left: 15px; }
+
+        .results-table { width: 100%; border-collapse: collapse; font-size: 0.7rem; margin-bottom: 10px; }
+        .results-table th, .results-table td { border: 1px solid #aaa; padding: 4px; text-align: center; }
+        .results-table th { background-color: var(--table-cyan); color: #444; font-weight: bold; }
+        .results-table td:nth-child(2) { text-align: left; }
+        .table-footer { background-color: #f9f9f9; font-weight: bold; }
+
+        .status-banner { border: 1px solid #f39c12; padding: 5px; text-align: center; font-weight: bold; font-size: 0.85rem; margin-bottom: 5px; }
+        .status-pass { color: #28a745; }
+        .status-fail { color: #dc3545; }
+
+        .print-btn { text-align: center; margin-bottom: 10px; }
+        .print-btn a { color: #0078d7; text-decoration: underline; font-size: 0.8rem; cursor: pointer; border: 1px solid #b3d4fc; padding: 2px 15px; display: inline-block; }
+
+        /* Footer */
+        .footer { background-color: var(--primary-orange); color: white; text-align: center; padding: 5px; font-size: 0.75rem; margin-top: auto; width: 100%; }
+    </style>
+</head>
+<body>
+
+    <header class="top-header">
+        <div class="header-left">
+            <i class="fas fa-bars"></i>
+            <span>GUJARAT TECHNOLOGICAL UNIVERSITY</span>
+        </div>
+        <div class="header-right">
+            <button>Reset Password</button>
+            <button>Logout</button>
+        </div>
+    </header>
+
+    <div class="main-container">
+        
+        <aside class="sidebar">
+            <div class="profile-section">
+                <div class="enrollment">186780307048</div>
+                <img src="https://via.placeholder.com/70" alt="Profile Picture">
+                <div class="student-name">PATEL VEDANGKUMAR<br>KAMLESHBHAI</div>
+            </div>
+            <ul class="nav-menu">
+                <li id="nav-home" class="active"><a href="#"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="#"><i class="fas fa-certificate"></i> Certificate Request</a></li>
+                <li><a href="#"><i class="fas fa-book"></i> Syllabus Endorsement</a></li>
+                <li><a href="#"><i class="fas fa-file-alt"></i> Examform</a></li>
+                <li><a href="#"><i class="fas fa-copy"></i> Answer Sheet View</a></li>
+                <li><a href="#"><i class="fas fa-graduation-cap"></i> Convocation</a></li>
+                <li><a href="#"><i class="fas fa-history"></i> Recheck/Reassess History</a></li>
+                <li><a href="#"><i class="fas fa-id-card"></i> Degree Verification</a></li>
+                <li><a href="#"><i class="fas fa-chart-line"></i> Marksheet Tracker</a></li>
+                <li><a href="#"><i class="fas fa-search"></i> Certificate Tracking</a></li>
+                <li id="nav-results"><a href="#"><i class="fas fa-poll"></i> My Results</a></li>
+                <li><a href="#"><i class="fas fa-star"></i> Grade History</a></li>
+                <li><a href="#"><i class="fas fa-laptop"></i> MOOCs Registration</a></li>
+                <li><a href="#"><i class="fas fa-file-signature"></i> MBMR Applications</a></li>
+                <li><a href="#"><i class="fas fa-rupee-sign"></i> Check Payment Status</a></li>
+                <li><a href="#"><i class="fas fa-list"></i> View my last 10 logs</a></li>
+            </ul>
+        </aside>
+
+        <main class="content-area">
+            
+            <div id="home-view" class="home-view" style="display: flex;">
+                <div class="alert-banner">
+                    Click here to submit your Bank Account Details.
+                </div>
+                <div class="panels-wrapper">
+                    <div class="panel">
+                        <div class="panel-header">Personal Info</div>
+                        <div style="padding: 10px;">
+                            <table>
+                                <tbody>
+                                    <tr><td>Name :</td><td>PATEL VEDANGKUMAR KAMLESHBHAI</td></tr>
+                                    <tr><td>ABC ID :</td><td>574852927287 <i class="fas fa-edit edit-icon" onclick="openEdit('profile')"></i></td></tr>
+                                    <tr><td>Aadhaar No :</td><td>702894088420 <i class="fas fa-edit edit-icon" onclick="openEdit('profile')"></i></td></tr>
+                                    <tr><td>Date of Birth :</td><td>2000-10-16 <i class="fas fa-edit edit-icon" onclick="openEdit('profile')"></i></td></tr>
+                                    <tr><td>Gender :</td><td>M</td></tr>
+                                    <tr><td>Mobile No :</td><td>8140999726 <i class="fas fa-edit edit-icon" onclick="openEdit('mobile')"></i></td></tr>
+                                    <tr><td>Email :</td><td>patelvedang20001016@gmail.com <i class="fas fa-edit edit-icon" onclick="openEdit('email')"></i></td></tr>
+                                    <tr><td>Parent's Mobile No. :</td><td>9427816752 <i class="fas fa-edit edit-icon" onclick="openEdit('profile')"></i></td></tr>
+                                    <tr><td>Parent's Email :</td><td>patelvedang2000@icloud.com <i class="fas fa-edit edit-icon" onclick="openEdit('profile')"></i></td></tr>
+                                    <tr><td>Account Detail :</td><td>29875258151 , IFSC : SBIN0002637 <i class="fas fa-edit edit-icon" onclick="openEdit('profile')"></i></td></tr>
+                                    <tr><td>Password :</td><td>********** <i class="fas fa-edit edit-icon" onclick="openEdit('profile')"></i></td></tr>
+                                    <tr><td>Address :</td><td>AT POST DEBHARI (patelvada) TA VIRPUR DIST MAHISAGAR <i class="fas fa-edit edit-icon" onclick="openEdit('profile')"></i></td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="panel">
+                        <div class="panel-header">Academic Info</div>
+                        <div style="padding: 10px;">
+                            <table>
+                                <tbody>
+                                    <tr><td>Course:</td><td>DI</td></tr>
+                                    <tr><td>Branch:</td><td>07 - COMPUTER ENGINEERING</td></tr>
+                                    <tr><td>College:</td><td>676 - H B PATEL INSTITUTE OF DIPLOMA ENGG. & TECH.,LIMBODARA, LUNAWADA</td></tr>
+                                    <tr><td>Academic Status:</td><td><span class="badge-blue">Completed</span></td></tr>
+                                    <tr><td>Last Appeared Exam:</td><td>DIPL SEM 6 - Regular (MAY 2022)</td></tr>
+                                    <tr><td>CPI:</td><td>7.54</td></tr>
+                                    <tr><td>CGPA:</td><td>7.51</td></tr>
+                                    <tr><td>Final Sem:</td><td><span class="badge-green">6</span></td></tr>
+                                    <tr><td>Term End:</td><td>2022</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="edit-profile-view" class="edit-view">
+                <div class="edit-form-container">
+                    <div class="edit-form-header header-cyan">Edit Profile Info</div>
+                    <div class="edit-form-info">Please submit your latest/valid information here.</div>
+                    <table class="edit-form-table">
+                        <tr>
+                            <td>Aadhaar No.:</td>
+                            <td><input type="text" value="702856038400" readonly style="background-color: #f5f5f5;"></td>
+                        </tr>
+                        <tr>
+                            <td>Date of Birth:</td>
+                            <td><input type="text" value="2000-10-16"></td>
+                        </tr>
+                        <tr>
+                            <td>Gender:</td>
+                            <td>
+                                <input type="radio" name="gender">Female 
+                                <input type="radio" name="gender" checked>Male 
+                                <input type="radio" name="gender">Other
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Parent's Mobile No.:</td>
+                            <td><input type="text" value="9427816752"></td>
+                        </tr>
+                        <tr>
+                            <td>Parent's Email:</td>
+                            <td><input type="text" value="patelvedang2000@icloud.com" style="width: 350px;"></td>
+                        </tr>
+                    </table>
+                    <div class="edit-form-actions">
+                        <button class="btn-green">Submit Profile</button>
+                        <button class="btn-green" onclick="showHome()">Back to Home</button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="edit-mobile-view" class="edit-view">
+                <div class="edit-form-container">
+                    <div class="edit-form-header header-green">Update Registerd Mobile No</div>
+                    <table class="edit-form-table">
+                        <tr>
+                            <td>Current Mobile No.:</td>
+                            <td>8140599726</td>
+                        </tr>
+                        <tr>
+                            <td>New Mobile No</td>
+                            <td>
+                                <input type="text" style="width: 100%;">
+                                <a href="#" class="verify-link">Verify</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Verification Code</td>
+                            <td><input type="text" style="width: 100%;"></td>
+                        </tr>
+                    </table>
+                    <div class="edit-form-actions">
+                        <button class="btn-green">Update</button>
+                        <button class="btn-green" onclick="showHome()">Back to Home</button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="edit-email-view" class="edit-view">
+                <div class="edit-form-container">
+                    <div class="edit-form-header header-red">Update Registerd Email Id</div>
+                    <table class="edit-form-table">
+                        <tr>
+                            <td>Email:</td>
+                            <td>patelvedang20001016@gmail.com</td>
+                        </tr>
+                        <tr>
+                            <td>New Email Id</td>
+                            <td>
+                                <input type="text" style="width: 100%;">
+                                <a href="#" class="verify-link">Verify</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Verification Code</td>
+                            <td><input type="text" style="width: 100%;"></td>
+                        </tr>
+                    </table>
+                    <div class="edit-form-actions">
+                        <button class="btn-green">Submit</button>
+                        <button class="btn-green" onclick="showHome()">Back to Home</button>
+                    </div>
+                </div>
+            </div>
+
+
+            <div id="results-view" class="results-view">
+                <div class="results-header-title">
+                    <span style="color: #666; font-size: 1.3rem;">GUJARAT TECHNOLOGICAL UNIVERSITY</span><br>
+                    Student Result
+                </div>
+                <hr style="border: 0; border-top: 1px solid #ddd; margin-bottom: 10px;">
+
+                <div class="control-group">
+                    <label>Select Session</label>
+                    <div class="inputs">
+                        <span class="radio-btn"><input type="radio" name="session" checked> Current (S2025)</span>
+                        <span class="radio-btn"><input type="radio" name="session"> Archive</span>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label>Exam</label>
+                    <div class="inputs">
+                        <select id="exam-select">
+                            <option value="sem6_reg">DIPL SEM 6 - Regular (MAY 2022)</option>
+                            <option value="sem5_reg">DIPL SEM 5 - Regular (DEC 2021)</option>
+                            <option value="sem4_reg">DIPL SEM 4 - Regular (MAY 2021)</option>
+                            <option value="sem3_rem">DIPL SEM 3 - Remedial (MAY 2021)</option>
+                            <option value="sem3_reg">DIPL SEM 3 - Regular (JAN 2021)</option>
+                            <option value="sem2_reg">DIPL SEM 2 - Regular (MAY 2020)</option>
+                            <option value="sem1_rem">DIPL SEM 1 - Remedial (DEC 2019)</option>
+                            <option value="sem1_reg">DIPL SEM 1 - Regular (DEC 2018)</option>
+                        </select>
+                        <button class="search-btn" onclick="renderResult()">Search</button>
+                    </div>
+                </div>
+
+                <div class="student-details">
+                    <div>Name <span>PATEL VEDANGKUMAR KAMLESHBHAI</span></div>
+                    <div>Enrollment No. <span>186780307048</span></div>
+                    <div>Declared On <span id="lbl-declared">30 Jul 2022</span></div>
+                    <div>Exam <span id="lbl-exam">DIPL SEM 6 - Regular (MAY 2022)</span></div>
+                    <div>Branch <span>COMPUTER ENGINEERING</span></div>
+                </div>
+
+                <table class="results-table">
+                    <thead>
+                        <tr>
+                            <th rowspan="2" style="width:10%">SUBJECT CODE</th>
+                            <th rowspan="2" style="text-align: left; width: 40%">SUBJECT NAME</th>
+                            <th rowspan="2" style="width:8%">ESE ABSENT</th>
+                            <th colspan="3">Theory Grade</th>
+                            <th colspan="3">Practical Grade</th>
+                            <th rowspan="2" style="width:8%">Subject Grade</th>
+                        </tr>
+                        <tr>
+                            <th>ESE</th><th>PA</th><th>TOTAL</th>
+                            <th>ESE</th><th>PA</th><th>TOTAL</th>
+                        </tr>
+                    </thead>
+                    <tbody id="results-tbody">
+                        </tbody>
+                    <tfoot class="table-footer">
+                        <tr>
+                            <td colspan="3" id="lbl-sem-backlog" style="text-align: center;">Current Sem. Backlog: 0</td>
+                            <td colspan="3" id="lbl-tot-backlog" style="text-align: center;">Total Backlog: 0</td>
+                            <td colspan="2" id="lbl-spi" style="text-align: center;">SPI: 7.84</td>
+                            <td colspan="3" id="lbl-cpi-cgpa" style="text-align: center;">CPI: 7.54 &nbsp;&nbsp;&nbsp;&nbsp; CGPA: 7.51</td>
+                        </tr>
+                    </tfoot>
+                </table>
+
+                <div id="status-banner" class="status-banner status-pass">
+                    Congratulation!! You have passed this exam.
+                </div>
+                
+                <div class="print-btn">
+                    <a>Print</a>
+                </div>
+            </div>
+
+            <footer class="footer">
+                2018 - gtu.ac.in
+            </footer>
+        </main>
+    </div>
+
+    <script>
+        // Database for results 
+        const resultDatabase = {
+            "sem6_reg": { declared: "30 Jul 2022", name: "DIPL SEM 6 - Regular (MAY 2022)", subjects: [{c: "3360701", n: "Advance Java Programming", eA: "-", te: "DD", tp: "CD", tt: "DD", pe: "BC", pp: "AA", pt: "AB", sg: "BC"}, {c: "3360702", n: "Professional Practices Using Database", eA: "-", te: "-", tp: "-", tt: "-", pe: "BC", pp: "AB", pt: "AB", sg: "AB"}, {c: "3360703", n: "Networking Management & Administration", eA: "-", te: "BC", tp: "BC", tt: "BC", pe: "AA", pp: "AB", pt: "AB", sg: "BB"}, {c: "3360704", n: "Mobile Computing And Application Development", eA: "-", te: "DD", tp: "CD", tt: "DD", pe: "BC", pp: "AB", pt: "BB", sg: "CC"}, {c: "3360707", n: "PROJECT-II", eA: "-", te: "-", tp: "-", tt: "-", pe: "AB", pp: "AA", pt: "AA", sg: "AA"}], semB: "0", totB: "0", spi: "7.84", cpi: "7.54", cgpa: "7.51", status: "Congratulation!! You have passed this exam.", passed: true },
+            "sem5_reg": { declared: "11 Feb 2022", name: "DIPL SEM 5 - Regular (DEC 2021)", subjects: [{c: "3350701", n: "Computer Maintenance And Trouble Shooting", eA: "-", te: "DD", tp: "CD", tt: "DD", pe: "AB", pp: "AB", pt: "AB", sg: "CC"}, {c: "3350702", n: "Dynamic Web Page Development", eA: "-", te: "DD", tp: "CC", tt: "CD", pe: "AB", pp: "AB", pt: "AB", sg: "BC"}, {c: "3350703", n: "Java Programming", eA: "-", te: "DD", tp: "CD", tt: "DD", pe: "AA", pp: "AA", pt: "AA", sg: "BB"}, {c: "3350704", n: "Computer And Network Security", eA: "-", te: "DD", tp: "CD", tt: "DD", pe: "AB", pp: "AB", pt: "AB", sg: "BC"}, {c: "3350706", n: "PROJECT-I", eA: "-", te: "-", tp: "-", tt: "-", pe: "AA", pp: "AA", pt: "AA", sg: "AA"}], semB: "0", totB: "0", spi: "7.47", cpi: "7.47", cgpa: "7.40", status: "Congratulation!! You have passed this exam.", passed: true },
+            "sem4_reg": { declared: "07 Oct 2021", name: "DIPL SEM 4 - Regular (MAY 2021)", subjects: [{c: "3340701", n: "Advanced Database Management System", eA: "-", te: "CD", tp: "BC", tt: "CC", pe: "AB", pp: "BB", pt: "AB", sg: "BC"}, {c: "3340702", n: "Computer Networks", eA: "-", te: "BC", tp: "AA", tt: "BB", pe: "AB", pp: "BB", pt: "AB", sg: "BB"}, {c: "3340704", n: ".net Programming", eA: "-", te: "CC", tp: "AB", tt: "BC", pe: "AB", pp: "BB", pt: "AB", sg: "BB"}, {c: "3340705", n: "Computer Organization And Architecture", eA: "-", te: "BC", tp: "AA", tt: "BB", pe: "-", pp: "-", pt: "-", sg: "BB"}, {c: "3340708", n: "Web Development Tools", eA: "-", te: "-", tp: "-", tt: "-", pe: "AA", pp: "AB", pt: "AB", sg: "AB"}, {c: "3341603", n: "Fundamentals Of Software Development", eA: "-", te: "CC", tp: "BB", tt: "BC", pe: "AB", pp: "AB", pt: "AB", sg: "BB"}], semB: "0", totB: "2", spi: "7.90", cpi: "6.66", cgpa: "5.79", status: "Congratulation!! You have passed this exam.", passed: true },
+            "sem3_rem": { declared: "25 Oct 2021", name: "DIPL SEM 3 - Remedial (MAY 2021)", subjects: [{c: "3330703", n: "Database Management System", eA: "-", te: "DD", tp: "BB", tt: "CC", pe: "AB", pp: "AA", pt: "AB", sg: "BC"}, {c: "3330704", n: "Data Structure", eA: "-", te: "DD", tp: "AB", tt: "CC", pe: "AA", pp: "AB", pt: "AB", sg: "BC"}], semB: "0", totB: "0", spi: "6.84", cpi: "7.48", cgpa: "7.37", status: "Congratulation!! You have passed this exam.", passed: true },
+            "sem3_reg": { declared: "04 May 2021", name: "DIPL SEM 3 - Regular (JAN 2021)", subjects: [{c: "3330701", n: "Operating System", eA: "-", te: "DD", tp: "AA", tt: "CC", pe: "BB", pp: "BC", pt: "BC", sg: "CC"}, {c: "3330702", n: "Programming In C++", eA: "-", te: "CC", tp: "BB", tt: "CC", pe: "BB", pp: "AB", pt: "BB", sg: "BC"}, {c: "3330703", n: "Database Management System", eA: "-", te: "FF", tp: "BB", tt: "FF", pe: "AB", pp: "AA", pt: "AB", sg: "FF"}, {c: "3330704", n: "Data Structure", eA: "-", te: "FF", tp: "AB", tt: "FF", pe: "AA", pp: "AB", pt: "AB", sg: "FF"}, {c: "3330705", n: "Microprocessor & Assembly Language Programming", eA: "-", te: "DD", tp: "AA", tt: "CC", pe: "BB", pp: "BB", pt: "BB", sg: "BC"}], semB: "2", totB: "2", spi: "3.68", cpi: "6.22", cgpa: "3.68", status: "Sorry! You have not cleared this exam.", passed: false },
+            "sem2_reg": { declared: "27 Jul 2019", name: "DIPL SEM 2 - Regular (MAY 2020)", subjects: [{c: "3300005", n: "BASIC PHYSICS (GROUP-2)", eA: "-", te: "BC", tp: "AB", tt: "BB", pe: "AB", pp: "AB", pt: "AB", sg: "BB"}, {c: "3320002", n: "ADVANCED MATHEMATICS (GROUP-1)", eA: "-", te: "CC", tp: "CC", tt: "CC", pe: "-", pp: "-", pt: "-", sg: "CC"}, {c: "3320701", n: "Basic Electronics", eA: "-", te: "BB", tp: "AA", tt: "BB", pe: "AB", pp: "AB", pt: "AB", sg: "AB"}, {c: "3320702", n: "Advanced Computer Programming", eA: "-", te: "CC", tp: "CC", tt: "CC", pe: "AB", pp: "AB", pt: "AB", sg: "BB"}, {c: "3320703", n: "Static Web Page Designing", eA: "-", te: "-", tp: "-", tt: "-", pe: "AB", pp: "AB", pt: "AB", sg: "AB"}, {c: "3990001", n: "Contributor Personality Development", eA: "-", te: "BB", tp: "AA", tt: "BB", pe: "AB", pp: "AB", pt: "AB", sg: "AB"}], semB: "0", totB: "0", spi: "8.17", cpi: "7.59", cgpa: "", status: "Congratulation!! You have passed this exam.", passed: true },
+            "sem1_rem": { declared: "12 Mar 2020", name: "DIPL SEM 1 - Remedial (DEC 2019)", subjects: [{c: "3310701", n: "Computer Programming", eA: "-", te: "CD", tp: "CD", tt: "CD", pe: "AB", pp: "AA", pt: "AB", sg: "BC"}, {c: "3310702", n: "Fundamental Of Digital Electronics", eA: "-", te: "CD", tp: "BB", tt: "CC", pe: "AA", pp: "AA", pt: "AA", sg: "BB"}], semB: "0", totB: "0", spi: "-", cpi: "7.00", cgpa: "", status: "Congratulation!! You have passed this exam.", passed: true },
+            "sem1_reg": { declared: "16 Mar 2019", name: "DIPL SEM 1 - Regular (DEC 2018)", subjects: [{c: "3300001", n: "Basic Mathematics", eA: "-", te: "DD", tp: "CC", tt: "CD", pe: "-", pp: "-", pt: "-", sg: "CD"}, {c: "3300002", n: "English", eA: "-", te: "DD", tp: "CD", tt: "DD", pe: "AB", pp: "BB", pt: "BB", sg: "CC"}, {c: "3300003", n: "Environment Conservation And Hazard Management", eA: "-", te: "CC", tp: "AA", tt: "BC", pe: "-", pp: "-", pt: "-", sg: "BC"}, {c: "3310701", n: "Computer Programming", eA: "-", te: "FF", tp: "CD", tt: "FF", pe: "AB", pp: "AA", pt: "AB", sg: "FF"}, {c: "3310702", n: "Fundamental Of Digital Electronics", eA: "-", te: "FF", tp: "BB", tt: "FF", pe: "AA", pp: "AA", pt: "AA", sg: "FF"}, {c: "3310703", n: "Fundamental Of Computer Application", eA: "-", te: "-", tp: "-", tt: "-", pe: "AB", pp: "AA", pt: "AB", sg: "AB"}], semB: "2", totB: "2", spi: "3.93", cpi: "3.93", cgpa: "", status: "Sorry! You have not cleared this exam.", passed: false }
+        };
+
+        // UI View Toggles
+        document.addEventListener('DOMContentLoaded', () => {
+            const navItems = document.querySelectorAll('.nav-menu li');
+            
+            navItems.forEach(item => {
+                item.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    navItems.forEach(nav => nav.classList.remove('active'));
+                    this.classList.add('active');
+
+                    if(this.id === 'nav-results') {
+                        hideAllViews();
+                        document.getElementById('results-view').style.display = 'block';
+                        renderResult(); // Auto-load default
+                    } else if(this.id === 'nav-home') {
+                        showHome();
+                    }
+                });
+            });
+        });
+
+        // Hides all right-side main panels
+        function hideAllViews() {
+            document.getElementById('home-view').style.display = 'none';
+            document.getElementById('results-view').style.display = 'none';
+            document.getElementById('edit-profile-view').style.display = 'none';
+            document.getElementById('edit-mobile-view').style.display = 'none';
+            document.getElementById('edit-email-view').style.display = 'none';
+        }
+
+        // Return to main home dashboard
+        function showHome() {
+            hideAllViews();
+            document.getElementById('home-view').style.display = 'flex';
+            
+            // Fix sidebar active state
+            document.querySelectorAll('.nav-menu li').forEach(nav => nav.classList.remove('active'));
+            document.getElementById('nav-home').classList.add('active');
+        }
+
+        // Open specific edit view
+        function openEdit(type) {
+            hideAllViews();
+            if(type === 'profile') {
+                document.getElementById('edit-profile-view').style.display = 'block';
+            } else if(type === 'mobile') {
+                document.getElementById('edit-mobile-view').style.display = 'block';
+            } else if(type === 'email') {
+                document.getElementById('edit-email-view').style.display = 'block';
+            }
+        }
+
+        // Search engine logic for results
+        function renderResult() {
+            const selectVal = document.getElementById('exam-select').value;
+            const data = resultDatabase[selectVal]; 
+
+            document.getElementById('lbl-declared').innerText = data.declared;
+            document.getElementById('lbl-exam').innerText = data.name;
+            
+            const tbody = document.getElementById('results-tbody');
+            tbody.innerHTML = '';
+            data.subjects.forEach(sub => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${sub.c}</td>
+                    <td style="text-align: left;">${sub.n}</td>
+                    <td>${sub.eA}</td>
+                    <td>${sub.te}</td><td>${sub.tp}</td><td>${sub.tt}</td>
+                    <td>${sub.pe}</td><td>${sub.pp}</td><td>${sub.pt}</td>
+                    <td>${sub.sg}</td>
+                `;
+                tbody.appendChild(tr);
+            });
+
+            document.getElementById('lbl-sem-backlog').innerText = `Current Sem. Backlog: ${data.semB}`;
+            document.getElementById('lbl-tot-backlog').innerText = `Total Backlog: ${data.totB}`;
+            document.getElementById('lbl-spi').innerText = `SPI: ${data.spi}`;
+            document.getElementById('lbl-cpi-cgpa').innerHTML = `CPI: ${data.cpi} ${data.cgpa ? '&nbsp;&nbsp;&nbsp;&nbsp; CGPA: ' + data.cgpa : ''}`;
+
+            const banner = document.getElementById('status-banner');
+            banner.innerText = data.status;
+            banner.className = data.passed ? 'status-banner status-pass' : 'status-banner status-fail';
+        }
+    </script>
+</body>
+</html>

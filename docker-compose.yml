@@ -1,0 +1,27 @@
+version: '3.8'
+
+services:
+  db:
+    image: mysql:8.0
+    container_name: gtu-mysql-db
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: gtu_student_db
+    volumes:
+      - ./db/setup.sql:/docker-entrypoint-initdb.d/setup.sql
+    restart: unless-stopped
+
+  web:
+    build: .
+    container_name: gtu-tomcat-web
+    ports:
+      - "8080:8080"
+    environment:
+      - DB_HOST=db
+      - DB_USER=root
+      - DB_PASS=password
+    depends_on:
+      - db
+    restart: unless-stopped
