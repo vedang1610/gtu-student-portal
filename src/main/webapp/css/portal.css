@@ -1,0 +1,253 @@
+/* =============================================
+   GTU Student Portal - portal.css
+   (Login page + shared portal styles)
+   ============================================= */
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Segoe UI', Arial, sans-serif;
+  color: #222;
+  background: #f0f4fa;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+a { text-decoration: none; color: inherit; }
+
+/* ---- PORTAL HEADER ---- */
+.portal-header {
+  background: linear-gradient(135deg, #003087 0%, #0051cc 100%);
+  color: #fff;
+  padding: 0 24px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+.portal-header-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 72px;
+}
+.portal-logo-text {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.portal-gtu-abbr {
+  font-size: 28px;
+  font-weight: 900;
+  background: #e87722;
+  color: #fff;
+  padding: 4px 12px;
+  border-radius: 6px;
+  letter-spacing: 2px;
+}
+.portal-logo-text h1 { font-size: 16px; font-weight: 700; line-height: 1.3; }
+.portal-logo-text p { font-size: 12px; opacity: 0.8; }
+.back-to-main {
+  color: #cce3ff;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  border: 1px solid rgba(255,255,255,0.3);
+  border-radius: 20px;
+  transition: all 0.2s;
+}
+.back-to-main:hover { background: rgba(255,255,255,0.15); color: #fff; }
+
+/* ---- PORTAL PAGE LAYOUT (login) ---- */
+.portal-page {
+  flex: 1;
+  display: flex;
+  min-height: calc(100vh - 132px);
+}
+
+/* Left panel */
+.portal-info-panel {
+  width: 420px;
+  min-width: 320px;
+  background: linear-gradient(160deg, #003087 0%, #0051cc 50%, #003087 100%);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 36px;
+}
+.info-panel-content { max-width: 320px; }
+.info-icon-wrap { text-align: center; margin-bottom: 24px; }
+.info-big-icon { font-size: 72px; color: #ffe066; opacity: 0.9; }
+.info-panel-content h2 { font-size: 28px; font-weight: 800; line-height: 1.3; margin-bottom: 12px; }
+.info-panel-content p { font-size: 15px; opacity: 0.85; margin-bottom: 36px; }
+.info-features { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.info-feature-item {
+  display: flex; align-items: center; gap: 10px;
+  background: rgba(255,255,255,0.1);
+  padding: 12px 14px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 500;
+}
+.info-feature-item i { font-size: 18px; color: #ffe066; }
+
+/* Right panel (login form) */
+.portal-login-panel {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 24px;
+  background: #f0f4fa;
+}
+.login-card {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 24px rgba(0,48,135,0.12);
+  padding: 40px 40px 32px;
+  width: 100%;
+  max-width: 440px;
+}
+.login-card-header {
+  text-align: center;
+  margin-bottom: 28px;
+}
+.login-lock-icon {
+  font-size: 36px;
+  color: #003087;
+  margin-bottom: 8px;
+  display: block;
+}
+.login-card-header h2 {
+  font-size: 22px;
+  color: #003087;
+  font-weight: 700;
+}
+
+/* Error message */
+.login-error {
+  background: #fff0f0;
+  color: #c0392b;
+  border: 1px solid #f5c6c6;
+  border-left: 4px solid #c0392b;
+  padding: 12px 14px;
+  border-radius: 6px;
+  font-size: 13px;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Form */
+.login-form { display: flex; flex-direction: column; gap: 18px; }
+.form-group { display: flex; flex-direction: column; gap: 6px; }
+.form-group label { font-size: 13px; font-weight: 600; color: #333; display: flex; align-items: center; gap: 6px; }
+.form-group input {
+  padding: 12px 14px;
+  border: 1.5px solid #d0d8e8;
+  border-radius: 7px;
+  font-size: 14px;
+  color: #222;
+  transition: border 0.2s, box-shadow 0.2s;
+  background: #f8faff;
+  outline: none;
+}
+.form-group input:focus { border-color: #003087; box-shadow: 0 0 0 3px rgba(0,48,135,0.1); background: #fff; }
+
+.password-wrapper { position: relative; }
+.password-wrapper input { width: 100%; padding-right: 44px; }
+.toggle-pwd {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: #888;
+  font-size: 15px;
+}
+.toggle-pwd:hover { color: #003087; }
+
+.form-options { display: flex; justify-content: space-between; align-items: center; font-size: 13px; }
+.remember-me { display: flex; align-items: center; gap: 6px; cursor: pointer; }
+.forgot-link { color: #0051cc; font-weight: 600; }
+.forgot-link:hover { text-decoration: underline; }
+
+.btn-login {
+  background: #003087;
+  color: #fff;
+  border: none;
+  padding: 13px;
+  border-radius: 7px;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: background 0.2s, transform 0.15s;
+  margin-top: 4px;
+}
+.btn-login:hover { background: #e87722; transform: translateY(-1px); }
+
+.login-divider { text-align: center; color: #aaa; font-size: 12px; margin: 16px 0; position: relative; }
+.login-divider::before, .login-divider::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  width: 44%;
+  height: 1px;
+  background: #e0e0e0;
+}
+.login-divider::before { left: 0; }
+.login-divider::after { right: 0; }
+
+.btn-register {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px;
+  border: 2px solid #003087;
+  border-radius: 7px;
+  color: #003087;
+  font-size: 14px;
+  font-weight: 700;
+  transition: all 0.2s;
+}
+.btn-register:hover { background: #003087; color: #fff; }
+
+.login-notes {
+  margin-top: 20px;
+  padding: 14px;
+  background: #f0f5ff;
+  border-radius: 7px;
+  border-left: 3px solid #003087;
+}
+.login-notes p { font-size: 12px; color: #444; margin-bottom: 8px; display: flex; gap: 6px; line-height: 1.5; }
+.login-notes i { color: #003087; flex-shrink: 0; margin-top: 2px; }
+.faqs-link { display: inline-flex; align-items: center; gap: 6px; color: #0051cc; font-size: 12px; font-weight: 600; margin-top: 4px; }
+.faqs-link:hover { text-decoration: underline; }
+
+.last-updated { text-align: center; color: #aaa; font-size: 11px; margin-top: 16px; }
+
+/* ---- PORTAL FOOTER ---- */
+.portal-footer {
+  background: #003087;
+  color: #aac4e0;
+  text-align: center;
+  padding: 14px;
+  font-size: 12px;
+}
+.portal-footer a { color: #cce3ff; }
+.portal-footer a:hover { color: #ffe066; }
+
+/* ---- RESPONSIVE ---- */
+@media (max-width: 768px) {
+  .portal-info-panel { display: none; }
+  .login-card { padding: 28px 20px; }
+}

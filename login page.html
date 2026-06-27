@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GTU Login Portal</title>
+    <style>
+        /* CSS Reset and Global Styles */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body {
+            background-color: #f0f2f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        /* Main Card Container */
+        .login-card {
+            background: #ffffff;
+            width: 100%;
+            max-width: 380px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        /* Header Section */
+        .card-header {
+            background-color: #ff7e54; /* Match GTU Orange */
+            text-align: center;
+            padding: 25px 20px;
+            color: #ffffff;
+        }
+
+        .card-header img {
+            width: 70px;
+            height: auto;
+            margin-bottom: 15px;
+        }
+
+        .card-header h2 {
+            font-size: 18px;
+            font-weight: normal;
+            line-height: 1.4;
+            letter-spacing: 0.5px;
+        }
+
+        /* Form Body Section */
+        .card-body {
+            padding: 25px 30px;
+        }
+
+        .input-group {
+            margin-bottom: 15px;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            font-size: 13px;
+            color: #333;
+            outline: none;
+        }
+
+        .form-control:focus {
+            border-color: #007bff;
+        }
+
+        /* Captcha Row */
+        .captcha-row {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .captcha-input {
+            flex: 1;
+            margin-right: 15px;
+        }
+
+        .captcha-box {
+            width: 90px;
+            padding: 8px;
+            border: 1px solid #b32d2e; /* Dark red border */
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+            font-style: italic;
+            letter-spacing: 2px;
+            position: relative;
+            background: #fff;
+            color: #000;
+        }
+
+        /* Strikethrough line for Captcha */
+        .captcha-box::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 5%;
+            right: 5%;
+            border-top: 2px solid rgba(0,0,0,0.8);
+            transform: rotate(-8deg);
+        }
+
+        .refresh-icon {
+            color: #007bff;
+            cursor: pointer;
+            font-size: 16px;
+            margin-left: 10px;
+            text-decoration: none;
+        }
+
+        /* Links and Buttons */
+        .forgot-password {
+            text-align: right;
+            margin-bottom: 15px;
+        }
+
+        .forgot-password a, 
+        .create-account a {
+            color: #337ab7;
+            text-decoration: none;
+            font-size: 12px;
+        }
+
+        .forgot-password a:hover, 
+        .create-account a:hover {
+            text-decoration: underline;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 10px;
+            background-color: #ff7e54;
+            color: #ffffff;
+            border: none;
+            border-radius: 3px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .submit-btn:hover {
+            background-color: #e66a42;
+        }
+
+        /* Informational Text Sections */
+        .info-block {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 12px;
+            color: #555;
+            line-height: 1.5;
+        }
+
+        .info-block strong {
+            color: #333;
+        }
+
+        .create-account {
+            margin-top: 15px;
+            text-align: center;
+        }
+
+        .note-block {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 12px;
+            color: #555;
+            line-height: 1.6;
+        }
+
+        .faq-section {
+            margin-top: 15px;
+            text-align: center;
+        }
+
+        .faq-section a {
+            color: #8b0000;
+            text-decoration: none;
+            font-size: 16px;
+        }
+
+        .footer-text {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 11px;
+            color: #777;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="login-card">
+        <div class="card-header">
+            <img src="src/main/webapp/images/gtulogo.jpeg" alt="GTU Logo" id="logoImage">
+            <h2>GUJARAT TECHNOLOGICAL<br>UNIVERSITY.</h2>
+        </div>
+
+        <div class="card-body">
+            <form id="loginForm">
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Enrollment No/Username" required>
+                </div>
+                <div class="input-group">
+                    <input type="password" class="form-control" placeholder="Password" required>
+                </div>
+
+                <div class="captcha-row">
+                    <div class="captcha-input">
+                        <input type="text" class="form-control" placeholder="Captcha Code" required>
+                    </div>
+                    <div class="captcha-box" id="captchaText">1643</div>
+                    <a href="#" class="refresh-icon" onclick="refreshCaptcha(event)">&#8635;</a>
+                </div>
+
+                <div class="forgot-password">
+                    <a href="#">Forgot Password?</a>
+                </div>
+
+                <button type="submit" class="submit-btn"> Login </button>
+            </form>
+
+
+
+            <div class="note-block">
+                <strong>Note :</strong> Students who have already registerd themselves for recheck/reassment can use the same username and password to login to this portal.
+            </div>
+
+            <div class="faq-section">
+                <a href="#">FAQs</a>
+            </div>
+
+            <div class="footer-text">
+                Last Updated on- 22 Jun 2026 - S01
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Simple function to generate a random 4-digit captcha
+        function refreshCaptcha(e) {
+            e.preventDefault(); // Prevent page jump
+            const captchaBox = document.getElementById('captchaText');
+            const randomNum = Math.floor(1000 + Math.random() * 9000);
+            captchaBox.innerText = randomNum;
+        }
+
+        // Handle form submission to prevent actual page reload for the demo
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('OTP functionality would be triggered here.');
+        });
+    </script>
+
+</body>
+</html>
