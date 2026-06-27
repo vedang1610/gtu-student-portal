@@ -13,9 +13,9 @@ import java.sql.Statement;
 public class DBConnection {
 
     public static final String PROJECT_DIR = detectProjectDir();
-    private static final String DB_USER = getEnvOrDefault("DB_USER", "avnadmin");
-    private static final String DB_PASS = getEnvOrDefault("DB_PASS", "AVNS_tqrZqAsowc44WoezMmw");
-    private static final String DB_URL = getEnvOrDefault("DB_URL", "jdbc:mysql://setup-patelvedang20001016-581b.l.aivencloud.com:12250/defaultdb?useSSL=true&allowPublicKeyRetrieval=true");
+    private static final String DB_USER = getEnvOrDefault("DB_USER", "your_database_username");
+    private static final String DB_PASS = getEnvOrDefault("DB_PASS", "your_database_password");
+    private static final String DB_URL = getEnvOrDefault("DB_URL", "jdbc:mysql://your_database_host:your_database_port/your_database_name?useSSL=true&allowPublicKeyRetrieval=true");
     private static final String JDBC_DRIVER = getEnvOrDefault("JDBC_DRIVER", "com.mysql.cj.jdbc.Driver");
 
     static {
