@@ -165,5 +165,11 @@ $env:CATALINA_HOME = $tomcatDir
 $env:CATALINA_BASE = $tomcatDir
 $env:JAVA_HOME = $detectedJavaHome
 
+# Database configuration (Local H2 database)
+$env:JDBC_DRIVER = "org.h2.Driver"
+$env:DB_URL = "jdbc:h2:~/gtu_student_db;MODE=MySQL;DATABASE_TO_UPPER=FALSE"
+$env:DB_USER = "sa"
+$env:DB_PASS = ""
+
 # Launch Tomcat using catalina.bat run
 & "$tomcatDir\bin\catalina.bat" run

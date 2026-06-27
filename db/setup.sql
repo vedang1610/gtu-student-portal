@@ -32,7 +32,7 @@ CREATE TABLE IF NOT EXISTS students (
     parent_email     VARCHAR(100) DEFAULT 'patelvedang2000@icloud.com',
     account_detail   VARCHAR(255) DEFAULT '29875258151 , IFSC : SBIN0002637',
     address          VARCHAR(255) DEFAULT 'AT POST DEBHARI (patelvada) TA VIRPUR DIST MAHISAGAR',
-    profile_image    CLOB,
+    profile_image    LONGTEXT,
     created_at       TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
