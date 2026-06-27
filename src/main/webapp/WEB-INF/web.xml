@@ -17,33 +17,6 @@
     <session-timeout>20</session-timeout>
   </session-config>
 
-  <!-- Servlet Declarations and Mappings -->
-  <servlet>
-    <servlet-name>LoginServlet</servlet-name>
-    <servlet-class>com.gtu.servlet.LoginServlet</servlet-class>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>LoginServlet</servlet-name>
-    <url-pattern>/LoginServlet</url-pattern>
-  </servlet-mapping>
-
-  <servlet>
-    <servlet-name>LogoutServlet</servlet-name>
-    <servlet-class>com.gtu.servlet.LogoutServlet</servlet-class>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>LogoutServlet</servlet-name>
-    <url-pattern>/LogoutServlet</url-pattern>
-  </servlet-mapping>
-
-  <servlet>
-    <servlet-name>UpdateStudentServlet</servlet-name>
-    <servlet-class>com.gtu.servlet.UpdateStudentServlet</servlet-class>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>UpdateStudentServlet</servlet-name>
-    <url-pattern>/UpdateStudentServlet</url-pattern>
-  </servlet-mapping>
 
   <!-- Error pages -->
   <error-page>
